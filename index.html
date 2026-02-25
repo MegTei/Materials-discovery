@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AO Materials Program — Design Sync</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #1E2886;
+  --navy-dark: #141b5e;
+  --blue: #0288CC;
+  --blue-dark: #0271ad;
+  --cyan: #00E3FF;
+  --cyan-dim: #00c4db;
+  --orange: #fb923c;
+  --orange-dark: #f97316;
+  --green: #10b981;
+  --green-dark: #059669;
+  --red: #f87171;
+  --red-dark: #ef4444;
+  --amber: #fbbf24;
+  --purple: #a78bfa;
+  --slate-50: #f8fafc;
+  --slate-100: #f1f5f9;
+  --slate-200: #e2e8f0;
+  --slate-400: #94a3b8;
+  --slate-600: #475569;
+  --slate-700: #334155;
+  --slate-900: #0f172a;
+  --text: #1e293b;
+  --text-light: #64748b;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--slate-100);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── HEADER ─────────────────────────────────────────── */
+.site-header {
+  background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 60%, var(--blue-dark) 100%);
+  padding: 36px 60px 0;
+  position: relative;
+  overflow: hidden;
+}
+.site-header::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, rgba(0,227,255,.15) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.site-header::after {
+  content: '';
+  position: absolute;
+  bottom: -40px; left: 30%;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(2,136,204,.2) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.header-inner {
+  position: relative; z-index: 1;
+  display: flex; justify-content: space-between; align-items: flex-end;
+}
+.header-text h1 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 2.4rem;
+  color: white;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+.header-text h1 em {
+  color: var(--cyan);
+  font-style: italic;
+}
+.header-text p {
+  color: rgba(255,255,255,.7);
+  font-size: .95rem;
+  margin-top: 6px;
+  font-weight: 300;
+}
+.header-meta {
+  display: flex; gap: 12px; align-items: center;
+  padding-bottom: 4px;
+}
+.badge {
+  background: rgba(255,255,255,.12);
+  color: rgba(255,255,255,.9);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: .8rem;
+  font-weight: 600;
+  border: 1px solid rgba(255,255,255,.18);
+  backdrop-filter: blur(6px);
+}
+.badge.live { background: rgba(16,185,129,.25); border-color: var(--green); color: #6ee7b7; }
+
+/* ── TAB NAV ─────────────────────────────────────────── */
+.tab-nav {
+  display: flex;
+  gap: 0;
+  position: relative; z-index: 1;
+  margin-top: 28px;
+}
+.tab-btn {
+  padding: 14px 28px;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,.55);
+  font-family: 'DM Sans', sans-serif;
+  font-size: .88rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all .22s;
+  letter-spacing: .3px;
+  display: flex; align-items: center; gap: 8px;
+  white-space: nowrap;
+}
+.tab-btn .tab-num {
+  background: rgba(255,255,255,.12);
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .72rem;
+  flex-shrink: 0;
+}
+.tab-btn:hover { color: rgba(255,255,255,.85); background: rgba(255,255,255,.05); }
+.tab-btn.active {
+  color: var(--cyan);
+  border-bottom-color: var(--cyan);
+  background: rgba(0,227,255,.06);
+}
+.tab-btn.active .tab-num { background: var(--cyan); color: var(--navy); }
+
+/* ── MAIN CONTENT ───────────────────────────────────── */
+.main { padding: 36px 60px 60px; max-width: 1400px; margin: 0 auto; }
+.tab-panel { display: none; animation: fadeUp .3s ease; }
+.tab-panel.active { display: block; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── SECTION HEADINGS ────────────────────────────────── */
+.section-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.6rem;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+.section-sub {
+  color: var(--text-light);
+  font-size: .9rem;
+  margin-bottom: 28px;
+  font-weight: 400;
+}
+.divider {
+  height: 3px;
+  background: linear-gradient(90deg, var(--blue) 0%, var(--cyan) 50%, transparent 100%);
+  border-radius: 4px;
+  margin-bottom: 28px;
+  width: 120px;
+}
+
+/* ── CARDS ───────────────────────────────────────────── */
+.card {
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.07);
+  overflow: hidden;
+}
+.card-header {
+  padding: 18px 24px;
+  display: flex; align-items: center; gap: 12px;
+  border-bottom: 1px solid var(--slate-200);
+}
+.card-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.card-title { font-weight: 700; font-size: .95rem; color: var(--slate-900); }
+.card-body { padding: 20px 24px; }
+
+/* ── GRID HELPERS ───────────────────────────────────── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+
+/* ── PROGRESS BARS ───────────────────────────────────── */
+.progress-wrap { margin-top: 10px; }
+.progress-label { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: .8rem; font-weight: 600; }
+.progress-track { height: 8px; background: var(--slate-200); border-radius: 6px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 6px; transition: width .8s ease; }
+
+/* ── PILL TAGS ───────────────────────────────────────── */
+.pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: 20px;
+  font-size: .76rem; font-weight: 600;
+}
+.pill-blue { background: rgba(2,136,204,.1); color: var(--blue-dark); }
+.pill-green { background: rgba(16,185,129,.1); color: var(--green-dark); }
+.pill-orange { background: rgba(251,146,60,.12); color: var(--orange-dark); }
+.pill-red { background: rgba(248,113,113,.12); color: var(--red-dark); }
+.pill-amber { background: rgba(251,191,36,.15); color: #92400e; }
+.pill-navy { background: rgba(30,40,134,.1); color: var(--navy); }
+
+/* ── STATUS DOTS ─────────────────────────────────────── */
+.status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.dot-green { background: var(--green); box-shadow: 0 0 0 2px rgba(16,185,129,.25); }
+.dot-amber { background: var(--amber); }
+.dot-blue { background: var(--blue); }
+.dot-grey { background: var(--slate-400); }
+
+/* ── RISK CARDS ──────────────────────────────────────── */
+.risk-item {
+  background: white;
+  border-radius: 12px;
+  border-left: 4px solid var(--red);
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  padding: 18px 20px;
+  transition: transform .18s, box-shadow .18s;
+}
+.risk-item:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.1); }
+.risk-item.orange { border-left-color: var(--orange); }
+.risk-item.amber { border-left-color: var(--amber); }
+.risk-item.purple { border-left-color: var(--purple); }
+.risk-num { font-size: .72rem; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
+.risk-title { font-weight: 700; font-size: .9rem; color: var(--slate-900); margin-bottom: 8px; line-height: 1.4; }
+.risk-impact { font-size: .83rem; color: var(--text-light); line-height: 1.5; margin-bottom: 10px; }
+.risk-mitigation { font-size: .82rem; color: var(--slate-700); background: var(--slate-50); padding: 10px 12px; border-radius: 8px; line-height: 1.55; }
+.risk-score {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px; border-radius: 8px;
+  font-weight: 800; font-size: .85rem; color: white;
+  flex-shrink: 0;
+}
+.score-25 { background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%); }
+.score-16 { background: linear-gradient(135deg, var(--orange) 0%, var(--orange-dark) 100%); }
+.score-15 { background: linear-gradient(135deg, var(--amber) 0%, #d97706 100%); }
+
+/* ── MATERIAL FAMILY CARDS ───────────────────────────── */
+.family-card {
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.07);
+  overflow: hidden;
+  border: 2px solid var(--slate-200);
+  transition: border-color .2s;
+}
+.family-card:hover { border-color: var(--blue); }
+.family-header {
+  padding: 18px 20px;
+  display: flex; justify-content: space-between; align-items: flex-start;
+}
+.family-icon-wrap {
+  width: 42px; height: 42px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
+}
+.family-meta { flex: 1; padding-left: 12px; }
+.family-name { font-weight: 700; font-size: 1rem; color: var(--slate-900); }
+.family-sub { font-size: .8rem; color: var(--text-light); margin-top: 2px; }
+.family-priority {
+  padding: 4px 10px; border-radius: 20px;
+  font-size: .76rem; font-weight: 700;
+}
+.family-stats {
+  padding: 0 20px 18px;
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+.stat-block { }
+.stat-label { font-size: .73rem; color: var(--text-light); font-weight: 600; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 4px; }
+.stat-value { font-weight: 700; font-size: .85rem; color: var(--slate-900); margin-bottom: 5px; }
+.bar-mini { height: 5px; background: var(--slate-200); border-radius: 4px; overflow: hidden; }
+.bar-mini-fill { height: 100%; border-radius: 4px; }
+.bar-dots { display: flex; gap: 3px; }
+.bar-dot { width: 10px; height: 10px; border-radius: 3px; }
+.family-ops {
+  padding: 14px 20px;
+  background: var(--slate-50);
+  border-top: 1px solid var(--slate-200);
+}
+.family-ops-title { font-size: .76rem; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
+.op-item { display: flex; gap: 7px; font-size: .8rem; color: var(--slate-700); margin-bottom: 5px; line-height: 1.45; }
+.op-check { color: var(--green); font-size: .85rem; flex-shrink: 0; margin-top: 1px; }
+
+/* ── INNOVATION CARDS ────────────────────────────────── */
+.innovation-card {
+  background: linear-gradient(135deg, var(--navy) 0%, #1a3080 100%);
+  border-radius: 14px;
+  padding: 24px;
+  color: white;
+  position: relative; overflow: hidden;
+}
+.innovation-card::before {
+  content: '';
+  position: absolute; top: -20px; right: -20px;
+  width: 100px; height: 100px;
+  background: radial-gradient(circle, rgba(0,227,255,.2) 0%, transparent 70%);
+}
+.innovation-label { font-size: .73rem; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--cyan); margin-bottom: 10px; }
+.innovation-title { font-family: 'DM Sans', sans-serif; font-size: 1.15rem; color: white; margin-bottom: 8px; line-height: 1.3; }
+.innovation-desc { font-size: .85rem; color: rgba(255,255,255,.7); line-height: 1.55; }
+.innovation-tag { margin-top: 14px; }
+
+/* ── TIMELINE / STEPS ────────────────────────────────── */
+.steps { display: flex; flex-direction: column; gap: 0; }
+.step {
+  display: flex; gap: 20px;
+  position: relative;
+  padding-bottom: 24px;
+}
+.step:last-child { padding-bottom: 0; }
+.step-left { display: flex; flex-direction: column; align-items: center; }
+.step-num {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--blue);
+  color: white; font-weight: 800; font-size: .9rem;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; z-index: 1;
+}
+.step-line {
+  width: 2px; background: var(--slate-200);
+  flex: 1; margin-top: 6px;
+}
+.step:last-child .step-line { display: none; }
+.step-content { flex: 1; padding-top: 6px; padding-bottom: 4px; }
+.step-title { font-weight: 700; font-size: .95rem; color: var(--slate-900); margin-bottom: 6px; }
+.step-body { font-size: .85rem; color: var(--text-light); line-height: 1.6; }
+.step-items { margin-top: 8px; display: flex; flex-direction: column; gap: 4px; }
+.step-item {
+  display: flex; align-items: flex-start; gap: 8px;
+  font-size: .84rem; color: var(--slate-700);
+  background: var(--slate-50); border-radius: 7px;
+  padding: 7px 10px; line-height: 1.4;
+}
+.step-bullet { color: var(--blue); font-weight: 800; flex-shrink: 0; }
+
+/* ── FRICTION CARDS ──────────────────────────────────── */
+.friction-card {
+  background: white; border-radius: 12px;
+  border-top: 4px solid var(--orange);
+  padding: 20px 22px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+
+/* ── KEY METRIC STATS ────────────────────────────────── */
+.stat-card {
+  background: white; border-radius: 14px;
+  padding: 22px 24px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.07);
+  display: flex; flex-direction: column; gap: 4px;
+}
+.stat-card-value {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 2.4rem; line-height: 1;
+}
+.stat-card-label { font-size: .82rem; color: var(--text-light); font-weight: 500; }
+
+/* ── COMPARE TABLE ───────────────────────────────────── */
+.compare-table { width: 100%; border-collapse: collapse; }
+.compare-table th {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--blue-dark) 100%);
+  color: white; padding: 12px 16px; text-align: left;
+  font-size: .83rem; font-weight: 700; letter-spacing: .3px;
+}
+.compare-table td { padding: 12px 16px; border-bottom: 1px solid var(--slate-200); font-size: .85rem; line-height: 1.5; }
+.compare-table tr:last-child td { border-bottom: none; }
+.compare-table tr:nth-child(even) td { background: var(--slate-50); }
+.compare-table th:first-child { border-radius: 10px 0 0 0; }
+.compare-table th:last-child { border-radius: 0 10px 0 0; }
+
+/* ── SEPARATOR ───────────────────────────────────────── */
+.section-gap { margin-top: 36px; }
+
+/* ── SPOTLIGHT BANNER ────────────────────────────────── */
+.spotlight {
+  background: linear-gradient(135deg, rgba(30,40,134,.06) 0%, rgba(2,136,204,.08) 100%);
+  border: 1.5px solid rgba(2,136,204,.25);
+  border-radius: 14px;
+  padding: 20px 26px;
+  margin-bottom: 24px;
+}
+.spotlight-label { font-size: .74rem; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--blue); margin-bottom: 6px; }
+.spotlight-text { font-size: .92rem; color: var(--slate-700); line-height: 1.6; }
+.spotlight-text strong { color: var(--navy); }
+
+/* ── AUDIENCE GAP ────────────────────────────────────── */
+.gap-visual {
+  display: flex; align-items: center; gap: 0;
+  background: white; border-radius: 14px; overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,.07);
+  margin-bottom: 20px;
+}
+.gap-box {
+  flex: 1; padding: 22px 20px; text-align: center;
+}
+.gap-box-label { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
+.gap-box-val { font-family: 'DM Sans', sans-serif; font-size: 1.5rem; }
+.gap-arrow {
+  width: 48px; background: var(--slate-100);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; color: var(--slate-400); align-self: stretch;
+}
+
+/* ── CALLOUT ─────────────────────────────────────────── */
+.callout {
+  border-radius: 12px; padding: 16px 20px;
+  display: flex; gap: 12px; align-items: flex-start;
+  font-size: .87rem; line-height: 1.6;
+}
+.callout-red { background: rgba(248,113,113,.08); border: 1.5px solid rgba(248,113,113,.3); }
+.callout-green { background: rgba(16,185,129,.07); border: 1.5px solid rgba(16,185,129,.25); }
+.callout-blue { background: rgba(2,136,204,.07); border: 1.5px solid rgba(2,136,204,.2); }
+.callout-orange { background: rgba(251,146,60,.08); border: 1.5px solid rgba(251,146,60,.3); }
+.callout-icon { font-size: 1.1rem; flex-shrink: 0; }
+
+/* ── MILESTONE ROW ───────────────────────────────────── */
+.milestone-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
+  color: white; border-radius: 8px; padding: 5px 12px;
+  font-size: .78rem; font-weight: 700;
+}
+.week-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--navy); color: white;
+  border-radius: 6px; padding: 3px 9px;
+  font-size: .74rem; font-weight: 600;
+}
+.this-week { background: var(--blue); }
+
+/* ── NEXT STEPS LIST ─────────────────────────────────── */
+.action-item {
+  background: white; border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  padding: 16px 20px;
+  display: flex; gap: 14px; align-items: flex-start;
+  border-left: 3px solid var(--blue);
+}
+.action-item.key { border-left-color: var(--cyan); }
+.action-num {
+  background: var(--blue); color: white;
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .78rem; font-weight: 800; flex-shrink: 0;
+}
+.action-item.key .action-num { background: var(--cyan); color: var(--navy); }
+.action-body { flex: 1; }
+.action-title { font-weight: 700; font-size: .9rem; color: var(--slate-900); margin-bottom: 4px; }
+.action-detail { font-size: .83rem; color: var(--text-light); line-height: 1.55; }
+.action-sub { margin-top: 6px; display: flex; flex-direction: column; gap: 3px; }
+.action-sub-item {
+  display: flex; gap: 6px; font-size: .81rem; color: var(--slate-700);
+  padding: 4px 0; border-top: 1px dashed var(--slate-200);
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ HEADER ═══════════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-text">
+      <h1>AO Materials Program<br><em>Design Sync</em></h1>
+      <p>Responsible Materials Research &amp; RFP Integration — February 2026</p>
+    </div>
+    <div class="header-meta">
+      <span class="badge live">● Live</span>
+      <span class="badge">23 Feb 2026</span>
+      <span class="badge">Precinct EOI 2027+</span>
+    </div>
+  </div>
+  <nav class="tab-nav">
+    <button class="tab-btn active" onclick="showTab('progress', this)">
+      <span class="tab-num">1</span> Progress
+    </button>
+    <button class="tab-btn" onclick="showTab('nextsteps', this)">
+      <span class="tab-num">2</span> Next Steps
+    </button>
+    <button class="tab-btn" onclick="showTab('benchmarking', this)">
+      <span class="tab-num">3</span> Current State Materials
+    </button>
+    <button class="tab-btn" onclick="showTab('target', this)">
+      <span class="tab-num">4</span> Target Materials
+    </button>
+    <button class="tab-btn" onclick="showTab('findings', this)">
+      <span class="tab-num">5</span> Findings
+    </button>
+  </nav>
+</header>
+
+<main class="main">
+
+<!-- ══════════════ TAB 1: PROGRESS ══════════════ -->
+<div id="tab-progress" class="tab-panel active">
+
+  <div class="section-title">Where We Are</div>
+  <div class="section-sub">Materials benchmarking, responsible alternatives research &amp; closed-loop analysis all underway</div>
+  <div class="divider"></div>
+
+  <!-- Material families grid -->
+  <div style="margin-bottom:10px; font-weight:700; font-size:1rem; color:var(--navy);">Venue overlay systems</div>
+  <div class="grid-2" style="margin-bottom:32px;">
+
+    <!-- Surface Systems — Priority 1 -->
+    <div class="family-card">
+      <div class="family-header">
+        <div class="family-icon-wrap" style="background:rgba(248,113,113,.1);">🎨</div>
+        <div class="family-meta">
+          <div class="family-name">Surface Systems</div>
+          <div class="family-sub">Brand-driven cladding &amp; graphics</div>
+        </div>
+        <div class="family-priority" style="background:rgba(248,113,113,.12); color:var(--red-dark);">Priority #1</div>
+      </div>
+      <div class="family-stats">
+        <div class="stat-block">
+          <div class="stat-label">Reuse Profile</div>
+          <div class="stat-value">High single-use</div>
+          <div class="bar-mini"><div class="bar-mini-fill" style="width:10%; background:var(--blue);"></div></div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-label">Waste Volume</div>
+          <div class="stat-value">Very High</div>
+          <div class="bar-dots">
+            <div class="bar-dot" style="background:var(--red);"></div>
+            <div class="bar-dot" style="background:var(--red);"></div>
+            <div class="bar-dot" style="background:var(--red);"></div>
+            <div class="bar-dot" style="background:var(--red);"></div>
+            <div class="bar-dot" style="background:var(--red);"></div>
+          </div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-label">Circularity Potential</div>
+          <div class="stat-value">Low–Medium</div>
+          <div class="bar-dots">
+            <div class="bar-dot" style="background:var(--green);"></div>
+            <div class="bar-dot" style="background:var(--green);"></div>
+            <div class="bar-dot" style="background:var(--slate-200);"></div>
+            <div class="bar-dot" style="background:var(--slate-200);"></div>
+            <div class="bar-dot" style="background:var(--slate-200);"></div>
+          </div>
+        </div>
+      </div>
+      <div class="family-ops">
+        <div class="family-ops-title">Key opportunities</div>
+        <div class="op-item"><span class="op-check">✓</span>Modular graphic systems: reusable frames + replaceable printed inserts</div>
+        <div class="op-item"><span class="op-check">✓</span>PVC closed-loop program (e.g. ClimateOne, Visionary Digital)</div>
+        <div class="op-item"><span class="op-check">✓</span>Expand Circular design and target materials to designers &amp; partners</div>
+        <div class="op-item"><span class="op-check">✓</span>Pilot Evergreen surface elements e.g. fabric &amp; ACM / ply alternatives</div>
+      </div>
+    </div>
+
+    <!-- Structural Systems — Priority 2 -->
+    <div class="family-card">
+      <div class="family-header">
+        <div class="family-icon-wrap" style="background:rgba(251,191,36,.12);">🏗️</div>
+        <div class="family-meta">
+          <div class="family-name">Structural Systems</div>
+          <div class="family-sub">Reusable, hired infrastructure</div>
+        </div>
+        <div class="family-priority" style="background:rgba(248,113,113,.12); color:var(--red-dark);">Priority #1</div>
+      </div>
+      <div class="family-stats">
+        <div class="stat-block">
+          <div class="stat-label">Reuse Profile</div>
+          <div class="stat-value">High reuse</div>
+          <div class="bar-mini"><div class="bar-mini-fill" style="width:60%; background:var(--blue);"></div></div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-label">Waste Volume</div>
+          <div class="stat-value">Low</div>
+          <div class="bar-dots">
+            <div class="bar-dot" style="background:var(--red);"></div>
+            <div class="bar-dot" style="background:var(--red);"></div>
+            <div class="bar-dot" style="background:var(--slate-200);"></div>
+            <div class="bar-dot" style="background:var(--slate-200);"></div>
+            <div class="bar-dot" style="background:var(--slate-200);"></div>
+          </div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-label">Circularity Potential</div>
+          <div class="stat-value">High</div>
+          <div class="bar-dots">
+            <div class="bar-dot" style="background:var(--green);"></div>
+            <div class="bar-dot" style="background:var(--green);"></div>
+            <div class="bar-dot" style="background:var(--green);"></div>
+            <div class="bar-dot" style="background:var(--green);"></div>
+            <div class="bar-dot" style="background:var(--slate-200);"></div>
+          </div>
+        </div>
+      </div>
+      <div class="family-ops">
+        <div class="family-ops-title">Key opportunities</div>
+        <div class="op-item"><span class="op-check">✓</span>Standardise hoarding dimensions for multi-year reuse</div>
+        <div class="op-item"><span class="op-check">✓</span>Expand Circular design and target materials to builders</div>
+        <div class="op-item"><span class="op-check">✓</span>Design for disassembly: reversible fixings, minimal adhesives</div>
+      </div>
+    </div>
+
+    <!-- Universal Assets — Priority 3 -->
+    <div class="family-card">
+      <div class="family-header">
+        <div class="family-icon-wrap" style="background:rgba(16,185,129,.1);">🪑</div>
+        <div class="family-meta">
+          <div class="family-name">Universal Assets</div>
+          <div class="family-sub">Standardised furniture &amp; amenities</div>
+        </div>
+        <div class="family-priority" style="background:rgba(16,185,129,.1); color:var(--green-dark);">Priority #3</div>
+      </div>
+      <div class="family-stats">
+        <div class="stat-block">
+          <div class="stat-label">Reuse Profile</div>
+          <div class="stat-value">Medium reuse</div>
+          <div class="bar-mini"><div class="bar-mini-fill" style="width:50%; background:var(--blue);"></div></div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-label">Waste Volume</div>
+          <div class="stat-value">Medium</div>
+          <div class="bar-dots">
+            <div class="bar-dot" style="background:var(--red);"></div>
+            <div class="bar-dot" style="background:var(--red);"></div>
+            <div class="bar-dot" style="background:var(--red);"></div>
+            <div class="bar-dot" style="background:var(--slate-200);"></div>
+            <div class="bar-dot" style="background:var(--slate-200);"></div>
+          </div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-label">Circularity Potential</div>
+          <div class="stat-value">High</div>
+          <div class="bar-dots">
+            <div class="bar-dot" style="background:var(--green);"></div>
+            <div class="bar-dot" style="background:var(--green);"></div>
+            <div class="bar-dot" style="background:var(--green);"></div>
+            <div class="bar-dot" style="background:var(--green);"></div>
+            <div class="bar-dot" style="background:var(--slate-200);"></div>
+          </div>
+        </div>
+      </div>
+      <div class="family-ops">
+        <div class="family-ops-title">Key opportunities</div>
+        <div class="op-item"><span class="op-check">✓</span>Design standardised furniture suites for 3–5 yr rotation</div>
+        <div class="op-item"><span class="op-check">✓</span>Product-as-a-Service (PaaS) lease models with supplier refurbishment</div>
+        <div class="op-item"><span class="op-check">✓</span>Modular bar/counter systems with swappable branded elements</div>
+      </div>
+    </div>
+
+    <!-- Logistics & Packaging — Priority 4 -->
+    <div class="family-card">
+      <div class="family-header">
+        <div class="family-icon-wrap" style="background:rgba(148,163,184,.1);">📦</div>
+        <div class="family-meta">
+          <div class="family-name">Logistics &amp; Packaging</div>
+          <div class="family-sub">Supply chain materials</div>
+        </div>
+        <div class="family-priority" style="background:rgba(148,163,184,.12); color:var(--slate-600);">Priority #4</div>
+      </div>
+      <div class="family-stats">
+        <div class="stat-block">
+          <div class="stat-label">Reuse Profile</div>
+          <div class="stat-value">High single-use</div>
+          <div class="bar-mini"><div class="bar-mini-fill" style="width:5%; background:var(--blue);"></div></div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-label">Waste Volume</div>
+          <div class="stat-value">High</div>
+          <div class="bar-dots">
+            <div class="bar-dot" style="background:var(--red);"></div>
+            <div class="bar-dot" style="background:var(--red);"></div>
+            <div class="bar-dot" style="background:var(--red);"></div>
+            <div class="bar-dot" style="background:var(--red);"></div>
+            <div class="bar-dot" style="background:var(--slate-200);"></div>
+          </div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-label">Circularity Potential</div>
+          <div class="stat-value">Low</div>
+          <div class="bar-dots">
+            <div class="bar-dot" style="background:var(--green);"></div>
+            <div class="bar-dot" style="background:var(--slate-200);"></div>
+            <div class="bar-dot" style="background:var(--slate-200);"></div>
+            <div class="bar-dot" style="background:var(--slate-200);"></div>
+            <div class="bar-dot" style="background:var(--slate-200);"></div>
+          </div>
+        </div>
+      </div>
+      <div class="family-ops">
+        <div class="family-ops-title">Key opportunities</div>
+        <div class="op-item"><span class="op-check">✓</span>Returnable crates/pallets required in supplier contracts</div>
+        <div class="op-item"><span class="op-check">✓</span>Substitute pallet wrap with reusable strapping / biodegradable alternatives</div>
+        <div class="op-item"><span class="op-check">✓</span>Builder accountability clauses for packaging waste disposal</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Evergreen elements -->
+  <div class="card section-gap" style="margin-bottom:28px;">
+    <div class="card-header">
+      <div class="card-icon" style="background:rgba(30,40,134,.1);">🌿</div>
+      <div>
+        <div class="card-title">Direction on evergreen elements</div>
+        <div style="font-size:.8rem; color:var(--text-light); margin-top:2px;"></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="grid-3">
+        <div>
+          <div style="font-weight:700; font-size:.85rem; color:var(--navy); margin-bottom:10px; padding-bottom:6px; border-bottom:2px solid var(--green);">Structural systems - evergreen</div>
+          <div class="step-items">
+            <div class="step-item"><span class="step-bullet" style="color:var(--green);">✓</span>Steel/aluminium frames &amp; truss systems</div>
+            <div class="step-item"><span class="step-bullet" style="color:var(--green);">✓</span>Scaffolding &amp; subframes</div>
+            <div class="step-item"><span class="step-bullet" style="color:var(--green);">✓</span>Ballast systems, floor structure</div>
+            <div class="step-item"><span class="step-bullet" style="color:var(--green);">✓</span>Modular wall panel systems</div>
+            <div class="step-item"><span class="step-bullet" style="color:var(--green);">✓</span>Facades/ cladding internal hoarding</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:700; font-size:.85rem; color:var(--navy); margin-bottom:10px; padding-bottom:6px; border-bottom:2px solid var(--blue);">Annual (Brand refresh)</div>
+          <div class="step-items">
+            <div class="step-item"><span class="step-bullet" style="color:var(--blue);">●</span>Facades/ graphic skins</div>
+            <div class="step-item"><span class="step-bullet" style="color:var(--blue);">●</span>SAV, PVC/vinyl banners</div>
+            <div class="step-item"><span class="step-bullet" style="color:var(--blue);">●</span>Paint &amp; render finishes</div>
+            <div class="step-item"><span class="step-bullet" style="color:var(--blue);">●</span>Wayfinding &amp; signage</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:700; font-size:.85rem; color:var(--navy); margin-bottom:10px; padding-bottom:6px; border-bottom:2px solid var(--orange);">Infrastructure ideas</div>
+          <div class="step-items">
+            <div class="step-item"><span class="step-bullet">→</span>First aid, toilets, retail year-on-year consistency</div>
+            <div class="step-item"><span class="step-bullet">→</span>AO24: 30 out of 37 builds stayed same — high reuse. AO25: Only 6 out of 37 builds stayed same — massive waste spike</div>
+            <div class="step-item"><span class="step-bullet">→</span>Sustainability instructions reach contractors weeks after event ends — too stretched to act in real time during bump-out</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Innovation Showcase -->
+  <div style="font-weight:700; font-size:1rem; color:var(--navy); margin-bottom:14px;">🚀 Ecosystem Innovation Showcase</div>
+  <div class="grid-2">
+    <div class="innovation-card">
+      <div class="innovation-label">Builder Innovation · JT Dodd</div>
+      <div class="innovation-title">Stackawall — Modular Wall Track System</div>
+      <div class="innovation-desc">A proprietary interlocking panel system designed for rapid bump-in / bump-out without adhesives or permanent fixings. Being tested at F1 — applicable to precinct hoardings &amp; internal walls. Supports design-for-disassembly and multi-year reuse.</div>
+      <div class="innovation-tag">
+        <span class="pill" style="background:rgba(0,227,255,.15); color:var(--cyan); border:1px solid rgba(0,227,255,.3);">Testing at F1</span>
+        <span class="pill" style="background:rgba(16,185,129,.15); color:#6ee7b7; border:1px solid rgba(16,185,129,.3); margin-left:6px;">High reuse potential</span>
+      </div>
+    </div>
+    <div class="innovation-card" style="background: linear-gradient(135deg, #0d5a3a 0%, #0f7a50 100%);">
+      <div class="innovation-label" style="color:#6ee7b7;">Supplier Innovation · TES</div>
+      <div class="innovation-title">Live Tetrik Fabric System</div>
+      <div class="innovation-desc">High-performance tension fabric for large-format graphics and facade cladding. Already in live use as an evergreen precinct element. Eliminates need for composite ACP/ply structures — fully recoverable and reusable without degradation across multiple events.</div>
+      <div class="innovation-tag">
+        <span class="pill" style="background:rgba(16,185,129,.25); color:#6ee7b7; border:1px solid rgba(16,185,129,.4);">Live at AO</span>
+        <span class="pill" style="background:rgba(255,255,255,.1); color:rgba(255,255,255,.8); border:1px solid rgba(255,255,255,.2); margin-left:6px;">Circular ready</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div id="tab-nextsteps" class="tab-panel">
+
+  <div class="section-title">Next Steps</div>
+  <div class="divider"></div>
+
+  <!-- Key decisions callout -->
+  <div class="callout callout-blue" style="margin-bottom:28px;">
+    <span class="callout-icon">💬</span>
+    <div>
+      <strong>Key decisions needed from this sync:</strong><br>
+      1. Which precinct elements are confirmed evergreen vs. annual? (Peter / PK direction)<br>
+      2. Feedback to PK on Infrastructure evergreen elements incl. Greenspec<br>
+      3. Endorsement of modular system showcase (JTDodd Stackawall / TES Tetrik) for RFP integration<br>
+      4. Agree zone of focus — which precincts are in scope for AO27 RFP
+    </div>
+  </div>
+
+  <!-- Action items -->
+  <div style="display:flex; flex-direction:column; gap:12px;">
+
+    <!-- Item 1: Design Sync (star) -->
+    <div class="action-item key">
+      <div class="action-num">★</div>
+      <div class="action-body">
+        <div class="action-title">Design Sync — Evergreen Design Elements</div>
+        <div class="action-detail">24-Feb · Meg · Matt · Peter · Vange · PK</div>
+        <div class="action-sub">
+          <div class="action-sub-item"><span class="step-bullet">→</span>Direction which precinct elements will be annual vs. evergreen in scope</div>
+          <div class="action-sub-item"><span class="step-bullet">→</span>Match materials to fit-for-purpose</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Item 2: Procurement (star) -->
+    <div class="action-item key">
+      <div class="action-num">★</div>
+      <div class="action-body">
+        <div class="action-title">Commence Quote Requests — Procurement</div>
+        <div class="action-detail">2-Mar · Sam · Meg</div>
+        <div class="action-sub">
+          <div class="action-sub-item"><span class="step-bullet">→</span>Gather quotes for target responsible materials against current-state baseline specs</div>
+          <div class="action-sub-item"><span class="step-bullet">→</span>Assess if preferred supplier framework is required</div>
+          <div class="action-sub-item"><span class="step-bullet">→</span>Traditional materials baseline pricing for cost comparison modelling</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Item 3: TA Debrief -->
+    <div class="action-item">
+      <div class="action-num">3</div>
+      <div class="action-body">
+        <div class="action-title">TA Debrief &amp; Consultation</div>
+        <div class="action-detail">2-Mar · Meg · Matt · Arron · John Robinson · Jordan / Dave</div>
+        <div class="action-sub">
+          <div class="action-sub-item"><span class="step-bullet">→</span>Understand existing reuse practices and constraints</div>
+          <div class="action-sub-item"><span class="step-bullet">→</span>Identify infrastructure evergreen candidates (incl. Greenspec feedback to PK)</div>
+          <div class="action-sub-item"><span class="step-bullet">→</span>Validate AO Reserve as pilot application for circular structural systems</div>
+          <div class="action-sub-item"><span class="step-bullet">→</span>Use case to feed into business case ROSI modelling</div>
+          <div class="action-sub-item"><span class="step-bullet">→</span>Materials shortlist vetted and endorsed by TA Fire/Safety</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Item 4: Business Case -->
+    <div class="action-item">
+      <div class="action-num">4</div>
+      <div class="action-body">
+        <div class="action-title">Business Case Modelling</div>
+        <div class="action-detail">9-Mar · Meg · Matt · Sam · Emma</div>
+        <div class="action-sub">
+          <div class="action-sub-item"><span class="step-bullet">→</span>Waste management costs</div>
+          <div class="action-sub-item"><span class="step-bullet">→</span>Warehouse &amp; logistics costs</div>
+          <div class="action-sub-item"><span class="step-bullet">→</span>Traditional vs RML comparison for evergreen elements</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ══════════════ TAB 5: BENCHMARKING ══════════════ -->
+<div id="tab-benchmarking" class="tab-panel">
+
+  <div class="section-title">Current State Materials — Benchmarking</div>
+  <div class="section-sub">8 qualitative interviews with Agencies &amp; builders</div>
+  <div class="divider"></div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:24px;">
+    <div class="callout callout-green">
+      <span class="callout-icon">✅</span>
+      <div><strong>Key finding #1:</strong> Many current state materials are fit for purpose — it is how they are treated and disassembled that turns them into waste. Solution: Circular design — Modular + Design for Disassembly.</div>
+    </div>
+    <div class="callout callout-red">
+      <span class="callout-icon">⚠️</span>
+      <div><strong>Key finding #2:</strong> No company in Australia accepts MDF. The primary resin (formaldehyde) is a known carcinogen and the size of wood fibre with high resin volumes makes it impossible to break down. MDF is the #1 choice as a substrate — nothing else compares to the finish that can be achieved and price point.</div>
+    </div>
+    <div class="callout callout-green">
+      <span class="callout-icon">✅</span>
+      <div><strong>Key finding #3:</strong> The good news is many of the existing materials are circular — it is what we do to them (finishes) and how we handle them on bump-out that makes them unrecoverable.</div>
+    </div>
+  </div>
+
+  <div style="display:flex; gap:12px; align-items:center; margin-bottom:20px; flex-wrap:wrap;">
+    <span style="font-weight:700; font-size:.82rem; color:var(--slate-600);">Legend:</span>
+    <div style="display:flex;align-items:center;gap:7px;background:rgba(2,136,204,.08);border:1.5px solid rgba(2,136,204,.3);border-radius:8px;padding:5px 12px;">
+      <div style="width:10px;height:10px;border-radius:2px;background:var(--blue);"></div>
+      <span style="font-size:.8rem;font-weight:600;color:var(--blue-dark);">Acceptable / Recovery pathway exists</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:7px;background:rgba(248,113,113,.08);border:1.5px solid rgba(248,113,113,.3);border-radius:8px;padding:5px 12px;">
+      <div style="width:10px;height:10px;border-radius:2px;background:var(--red);"></div>
+      <span style="font-size:.8rem;font-weight:600;color:var(--red-dark);">Not acceptable / No recovery path</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:7px;background:rgba(251,191,36,.1);border:1.5px solid rgba(251,191,36,.4);border-radius:8px;padding:5px 12px;">
+      <div style="width:10px;height:10px;border-radius:2px;background:var(--amber);"></div>
+      <span style="font-size:.8rem;font-weight:600;color:#92400e;">Conditional / Under review</span>
+    </div>
+  </div>
+
+  <div style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08);">
+  <div style="overflow-x:auto;">
+  <table style="width:100%;border-collapse:collapse;min-width:600px;">
+    <thead>
+      <tr style="background:linear-gradient(135deg,#1E2886 0%,#0271ad 100%);color:white;">
+        <th style="padding:12px 14px;text-align:left;font-size:.76rem;font-weight:700;letter-spacing:.4px;width:26px;">#</th>
+        <th style="padding:12px 14px;text-align:left;font-size:.76rem;font-weight:700;letter-spacing:.4px;min-width:155px;">Precinct Application</th>
+        <th style="padding:12px 14px;text-align:left;font-size:.76rem;font-weight:700;letter-spacing:.4px;min-width:190px;">Material</th>
+        
+        
+        
+        <th style="padding:12px 14px;text-align:left;font-size:.76rem;font-weight:700;letter-spacing:.4px;width:130px;">Price Point</th>
+        
+        
+        <th style="padding:12px 14px;text-align:center;font-size:.76rem;font-weight:700;letter-spacing:.4px;width:145px;">RML Status</th>
+      </tr>
+    </thead>
+    <tbody id="bench-tbody"></tbody>
+  </table>
+  </div>
+  </div>
+
+</div>
+
+
+
+<!-- ══════════════ TAB 6: TARGET MATERIALS ══════════════ -->
+<div id="tab-target" class="tab-panel">
+
+  <div class="section-title">Target Materials</div>
+  <div class="section-sub"></div>
+  <div class="divider"></div>
+
+  <div style="display:flex; gap:12px; align-items:center; margin-bottom:20px; flex-wrap:wrap;">
+    <span style="font-weight:700; font-size:.82rem; color:var(--slate-600);">Legend:</span>
+    <div style="display:flex;align-items:center;gap:7px;background:rgba(2,136,204,.08);border:1.5px solid rgba(2,136,204,.3);border-radius:8px;padding:5px 12px;">
+      <div style="width:10px;height:10px;border-radius:2px;background:var(--blue);"></div>
+      <span style="font-size:.8rem;font-weight:600;color:var(--blue-dark);">Acceptable / Recovery pathway exists</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:7px;background:rgba(248,113,113,.08);border:1.5px solid rgba(248,113,113,.3);border-radius:8px;padding:5px 12px;">
+      <div style="width:10px;height:10px;border-radius:2px;background:var(--red);"></div>
+      <span style="font-size:.8rem;font-weight:600;color:var(--red-dark);">Not acceptable / No recovery path</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:7px;background:rgba(251,191,36,.1);border:1.5px solid rgba(251,191,36,.4);border-radius:8px;padding:5px 12px;">
+      <div style="width:10px;height:10px;border-radius:2px;background:var(--amber);"></div>
+      <span style="font-size:.8rem;font-weight:600;color:#92400e;">Conditional / Under review</span>
+    </div>
+  </div>
+
+  <div style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08);">
+  <div style="overflow-x:auto;">
+  <table style="width:100%;border-collapse:collapse;min-width:900px;">
+    <thead>
+      <tr style="background:linear-gradient(135deg,#1E2886 0%,#0271ad 100%);color:white;">
+        <th style="padding:12px 14px;text-align:left;font-size:.76rem;font-weight:700;letter-spacing:.4px;width:26px;">#</th>
+        <th style="padding:12px 14px;text-align:left;font-size:.76rem;font-weight:700;letter-spacing:.4px;min-width:140px;">Precinct Application</th>
+        <th style="padding:12px 14px;text-align:left;font-size:.76rem;font-weight:700;letter-spacing:.4px;min-width:180px;">Material</th>
+        <th style="padding:12px 14px;text-align:left;font-size:.76rem;font-weight:700;letter-spacing:.4px;width:130px;">Price Point</th>
+        <th style="padding:12px 14px;text-align:center;font-size:.76rem;font-weight:700;letter-spacing:.4px;width:150px;">RML Status</th>
+        <th style="padding:0;width:200px;background:#f1f5f9;"></th>
+        <th style="padding:12px 14px;text-align:center;font-size:.76rem;font-weight:700;letter-spacing:.4px;min-width:170px;background:linear-gradient(135deg,#b45309 0%,#d97706 100%);color:#fef9c3;">Recommendation</th>
+        <th style="padding:12px 14px;text-align:left;font-size:.76rem;font-weight:700;letter-spacing:.4px;min-width:180px;background:linear-gradient(135deg,#b45309 0%,#d97706 100%);color:#fef9c3;">Potential Supplier</th>
+      </tr>
+    </thead>
+    <tbody id="target-tbody"></tbody>
+  </table>
+  </div>
+  
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ══════════════ TAB 7: FINDINGS ══════════════ -->
+<div id="tab-findings" class="tab-panel">
+
+  <div class="section-title">Where do we have leverage?</div>
+  <div class="section-sub">Lead findings and feedback from agencies, builders, suppliers and TA — what we can control, have influence over and what we must accept (for now)</div>
+  <div class="divider"></div>
+
+  <style>
+    .f-axis-track {
+      height: 10px; border-radius: 100px;
+      background: linear-gradient(90deg, #059669 0%, #34d399 28%, #fbbf24 44%, #f59e0b 56%, #f87171 72%, #dc2626 100%);
+      box-shadow: 0 2px 16px rgba(0,0,0,.1);
+      position: relative;
+      margin-bottom: 10px;
+    }
+    .f-axis-track::before, .f-axis-track::after {
+      content:''; position:absolute; top:50%; transform:translateY(-50%);
+      width:2px; height:18px; background:white; opacity:.7; border-radius:2px;
+    }
+    .f-axis-track::before { left: 33.3%; }
+    .f-axis-track::after  { left: 66.6%; }
+    .f-axis-labels { display:grid; grid-template-columns:1fr 1fr 1fr; margin-bottom:24px; }
+    .f-axis-label { display:flex; align-items:center; gap:6px; font-size:.72rem; font-weight:700; letter-spacing:.5px; text-transform:uppercase; font-family:'Sora',sans-serif; }
+    .f-axis-label:nth-child(2) { justify-content:center; }
+    .f-axis-label:nth-child(3) { justify-content:flex-end; }
+    .f-axis-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+
+    .f-columns { display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px; align-items:start; }
+    .f-zone { display:flex; flex-direction:column; gap:12px; }
+
+    .f-zone-label { display:flex; align-items:center; gap:10px; padding:14px 18px; border-radius:14px; color:white; margin-bottom:2px; }
+    .f-zone-label-icon { font-size:1.3rem; line-height:1; }
+    .f-zone-label-text h2 { font-size:.95rem; font-weight:700; line-height:1.2; letter-spacing:-.01em; }
+
+    .f-zone-green .f-zone-label { background: linear-gradient(135deg, #065f46, #059669); }
+    .f-zone-amber .f-zone-label { background: linear-gradient(135deg, #92400e, #d97706); }
+    .f-zone-red   .f-zone-label { background: linear-gradient(135deg, #7f1d1d, #dc2626); }
+
+    .f-card { border-radius:14px; background:#fff; padding:16px 18px; box-shadow:0 2px 12px rgba(0,0,0,.05); position:relative; border:1.5px solid transparent; transition:transform .15s, box-shadow .15s; }
+    .f-card:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(0,0,0,.09); }
+    .f-zone-green .f-card { border-color:#a7f3d0; }
+    .f-zone-amber .f-card { border-color:#fde68a; }
+    .f-zone-red   .f-card { border-color:#fecaca; }
+
+    .f-finding-num { position:absolute; top:14px; right:14px; font-size:.62rem; font-weight:800; letter-spacing:.8px; width:22px; height:22px; border-radius:6px; display:flex; align-items:center; justify-content:center; }
+    .f-zone-green .f-finding-num { background:#d1fae5; color:#065f46; }
+    .f-zone-amber .f-finding-num { background:#fef3c7; color:#92400e; }
+    .f-zone-red   .f-finding-num { background:#fee2e2; color:#991b1b; }
+
+    .f-card-eyebrow { font-size:.62rem; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; margin-bottom:5px; }
+    .f-zone-green .f-card-eyebrow { color:#059669; }
+    .f-zone-amber .f-card-eyebrow { color:#d97706; }
+    .f-zone-red   .f-card-eyebrow { color:#dc2626; }
+
+    .f-card-title { font-size:.88rem; font-weight:700; line-height:1.35; margin-bottom:7px; padding-right:28px; color:#0f172a; }
+    .f-card-body  { font-size:.76rem; line-height:1.6; color:#475569; }
+
+    .f-card-approach { margin-top:10px; padding:8px 11px; border-radius:9px; font-size:.72rem; line-height:1.55; font-weight:500; display:flex; gap:7px; align-items:flex-start; }
+    .f-zone-green .f-card-approach { background:#d1fae5; color:#065f46; }
+    .f-zone-amber .f-card-approach { background:#fef3c7; color:#92400e; }
+    .f-zone-red   .f-card-approach { background:#fee2e2; color:#991b1b; }
+
+    .f-tag-row { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+    .f-tag { font-size:.65rem; font-weight:700; padding:3px 9px; border-radius:100px; }
+    .f-tag-yes  { background:#d1fae5; color:#065f46; }
+    .f-tag-warn { background:#fef3c7; color:#92400e; }
+    .f-tag-no   { background:#fee2e2; color:#991b1b; }
+  </style>
+
+  <!-- Spectrum axis -->
+  <div class="f-axis-track"></div>
+  <div class="f-axis-labels">
+    <div class="f-axis-label"><div class="f-axis-dot" style="background:#059669"></div><span style="color:#059669">Control</span></div>
+    <div class="f-axis-label"><div class="f-axis-dot" style="background:#d97706"></div><span style="color:#d97706">Influence</span></div>
+    <div class="f-axis-label"><div class="f-axis-dot" style="background:#dc2626"></div><span style="color:#dc2626">Accept</span></div>
+  </div>
+
+  <div class="f-columns">
+
+    <!-- GREEN -->
+    <div class="f-zone f-zone-green">
+      <div class="f-zone-label">
+        <div class="f-zone-label-icon">✦</div>
+        <div class="f-zone-label-text"><h2>We can control</h2></div>
+      </div>
+
+      <div class="f-card">
+        <div class="f-finding-num">1</div>
+        <div class="f-card-eyebrow">Design approach</div>
+        <div class="f-card-title">Materials aren't the problem — it's how we treat them</div>
+        <div class="f-card-body">Most current materials are fit for purpose. Finishes, adhesives and poor bump-out handling are what make them unrecoverable.</div>
+        <div class="f-card-approach"><span style="font-weight:800;font-size:.8rem;flex-shrink:0;">→</span> Mandate Modular + Design for Disassembly in the RFP brief</div>
+      </div>
+
+      <div class="f-card">
+        <div class="f-finding-num">2</div>
+        <div class="f-card-eyebrow">Policy &amp; standard</div>
+        <div class="f-card-title">Set an AO Material Standard — not just a product list</div>
+        <div class="f-card-body">A product list creates fragile compliance. A standard (certified, recyclable, E0/E1, water-based) builds procurement discipline and scales without expert review of every new product.</div>
+        <div class="f-tag-row">
+          <span class="f-tag f-tag-no">✕ Product list: fragile</span>
+          <span class="f-tag f-tag-yes">✓ Standard: scalable</span>
+        </div>
+        <div class="f-card-approach"><span style="font-weight:800;font-size:.8rem;flex-shrink:0;">→</span> Take an incremental approach - AO27 = feasibility phase. Define the standard using builder + fire/safety feedback</div>
+      </div>
+
+      <div class="f-card">
+        <div class="f-finding-num">3</div>
+        <div class="f-card-eyebrow">Leadership</div>
+        <div class="f-card-title">Bridge the audience gap — expand to designers and builders</div>
+        <div class="f-card-body">Circular requirements haven't translated up (partners + designers) and downstream (builders).</div>
+        <div class="f-card-approach"><span style="font-weight:800;font-size:.8rem;flex-shrink:0;">→</span> Reach a wider audience: Precinct RFP is the primary mechanism</div>
+      </div>
+    </div>
+
+    <!-- AMBER -->
+    <div class="f-zone f-zone-amber">
+      <div class="f-zone-label">
+        <div class="f-zone-label-icon">⇌</div>
+        <div class="f-zone-label-text"><h2>Where there is tension</h2></div>
+      </div>
+
+      <div class="f-card">
+        <div class="f-finding-num">4</div>
+        <div class="f-card-eyebrow">Financial incentive</div>
+        <div class="f-card-title">Partners / agencies / builders prefer free mixed waste bins on-site</div>
+        <div class="f-card-body">Free waste is a disincentive to adopt responsible materials, circular design and DfD.</div>
+        <div class="f-card-approach"><span style="font-weight:800;font-size:.8rem;flex-shrink:0;">→</span> Require Waste Management Plans in the RFP. Distribute disposal costs to those without a plan</div>
+      </div>
+
+      <div class="f-card">
+        <div class="f-finding-num">5</div>
+        <div class="f-card-eyebrow">Operational constraint</div>
+        <div class="f-card-title">Bump-out time doubles for disassembly, reuse and storage</div>
+        <div class="f-card-body">A hard time constraint on bump-out limits circular practice at scale. Disassembly disrupts contractor operations and event scheduling.</div>
+        <div class="f-card-approach"><span style="font-weight:800;font-size:.8rem;flex-shrink:0;">→</span> Identify which evergreen elements suit reuse vs recovery. Test time vs labour trade-off with builders and TA</div>
+      </div>
+
+      <div class="f-card">
+        <div class="f-finding-num">6</div>
+        <div class="f-card-eyebrow">Expectations</div>
+        <div class="f-card-title">Optimising the mix is a continuous feasibility study</div>
+        <div class="f-card-body">The optimal material/application mix requires iteration — and exec buy-in to stay the course across multiple events.</div>
+        <div class="f-tag-row"><span class="f-tag f-tag-warn">! Needs exec buy-in</span></div>
+        <div class="f-card-approach"><span style="font-weight:800;font-size:.8rem;flex-shrink:0;">→</span> Set Phase III success measures upfront. Frame AO27 as year one of a multi-year program</div>
+      </div>
+    </div>
+
+    <!-- RED -->
+    <div class="f-zone f-zone-red">
+      <div class="f-zone-label">
+        <div class="f-zone-label-icon">↯</div>
+        <div class="f-zone-label-text"><h2>Hard to control</h2></div>
+      </div>
+
+      <div class="f-card">
+        <div class="f-finding-num">7</div>
+        <div class="f-card-eyebrow">Material constraint</div>
+        <div class="f-card-title">MDF — unrecyclable, yet irreplaceable at its price point</div>
+        <div class="f-card-body">No AU company accepts MDF. Formaldehyde resin makes it unrecoverable. Yet nothing else delivers its finish and price — making it the default substrate across the industry.</div>
+        <div class="f-tag-row">
+          <span class="f-tag f-tag-no">✕ No AU recycler</span>
+          <span class="f-tag f-tag-no">✕ No direct replacement</span>
+        </div>
+        <div class="f-card-approach"><span style="font-weight:800;font-size:.8rem;flex-shrink:0;">→</span> Limit use. Test alternatives: Compact Laminate, Melamine. Accept this is a multi-year shift</div>
+      </div>
+
+      <div class="f-card">
+        <div class="f-finding-num">8</div>
+        <div class="f-card-eyebrow">Commercial friction</div>
+        <div class="f-card-title">Materials are where contractors make margin</div>
+        <div class="f-card-body">Changing material sourcing directly impacts profit models.</div>
+        <div class="f-card-approach"><span style="font-weight:800;font-size:.8rem;flex-shrink:0;">→</span> Consider offsetting via reduced overall build costs</div>
+      </div>
+
+      <div class="f-card">
+        <div class="f-finding-num">9</div>
+        <div class="f-card-eyebrow">Technical constraint</div>
+        <div class="f-card-title">High-res facade graphics require composites with no circular equivalent</div>
+        <div class="f-card-body">ACP bonded to structural ply — the dominant branded facade approach — creates unrecoverable composites. Surface systems are the highest-waste, lowest-circularity category.</div>
+        <div class="f-tag-row"><span class="f-tag f-tag-no">✕ No silver bullet</span></div>
+        <div class="f-card-approach"><span style="font-weight:800;font-size:.8rem;flex-shrink:0;">→</span> Distinguish evergreen vs annual graphic elements. Test new materials like fabrics with friendlies — TES, Greenspec, JTDodd, SeekR</div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+</main>
+
+<script>
+// ── Tab switching ────────────────────────────────────────
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── Benchmarking data (Sheet 4, cols A-L) ───────────────
+const benchData = [
+  { group: '1 &middot; Precinct Facades & Cladding' },
+  { num:'1', app:'Precinct facades & cladding', mat:'Particleboard / Chipboard (A-Bond)', choice:'A-Bond Phenol Formaldehyde PF (not HMR B-bond MUF or C/D-Bond UF)', size:'2400x1200', supplier:'Bord', price:'16mm $48 / 18mm $51', trade:'', cert:'FSC or PEFC on request', ref:'Bord', rml:'Yes - A-Bond PF', status:'yes', badge:'Yes - A-Bond PF', rec:'Keep using', potentialSupplier:'CustomPine (Polytec / Porta)' },
+  { num:'', app:'', mat:'Non-structural Ply CD (AS/NZS 2270/2271)', choice:'Suitable for cladding', size:'2400x1200', supplier:'Plyco', price:'12mm $31 / 19mm $40', trade:'', cert:'', ref:'Trademaster', rml:'No - MUF (formaldehyde)', status:'no', badge:'No - MUF resin', rec:'Seek TA consultation on where applied', potentialSupplier:'' },
+  { num:'', app:'', mat:'Structural Ply (AS/NZS 2269)', choice:'Type A bond', size:'2400x1200', supplier:'', price:'12mm $40 / 19mm $75', trade:'', cert:'', ref:'Austral', rml:'Yes - A-Bond PF', status:'yes', badge:'Yes - A-Bond PF', rec:'Keep using', potentialSupplier:'Carter Holt' },
+  { num:'', app:'', mat:'MDF (Decor / MR)', choice:'Can get oversize 3600x1200, less sheets, faster install', size:'2400x1200', supplier:'', price:'6mm $20-$25 / 18mm $25-$40', trade:'~$25-$30', cert:'', ref:'Plyco', rml:'No - MUF/UF (formaldehyde)', status:'no', badge:'No - MUF/UF resin', rec:'Limit use', potentialSupplier:'Consider alternatives: Melamine / Formica. Compact Laminate' },
+  { num:'', app:'', mat:'ACP (Aluminium Composite Panel)', choice:'Glued to MDF or ply', size:'1220x2440', supplier:'', price:'$120', trade:'', cert:'', ref:'', rml:'No recovery path', status:'no', badge:'No recovery path', rec:'TBC', potentialSupplier:'' },
+
+  { group: '2 &middot; F&B Container Facades' },
+  { num:'2', app:'F&B container facades', mat:'AA Grade Marine Plywood BS1088', choice:'Ideal modular material + weatherproof', size:'2400x1200', supplier:'Allboard', price:'9mm $55-$80 / 15-25mm $90-$150', trade:'~$80-$100', cert:'Australian forestry / PEFC', ref:'SeTimber', rml:'Yes - Type A PF', status:'yes', badge:'Yes - Type A PF', rec:'Keep using', potentialSupplier:'Widely available' },
+
+  { group: '3 &middot; Internal Precinct Hoardings & Shade Legs' },
+  { num:'3', app:'Internal hoardings & shade legs', mat:'AA Grade Marine Plywood BS1088', choice:'Ideal modular material + weatherproof', size:'2400x1200', supplier:'Allboard', price:'9mm $55-$80 / 15-25mm $90-$150', trade:'~$80-$100', cert:'Australian forestry / PEFC', ref:'SeTimber', rml:'Yes - Type A PF', status:'yes', badge:'Yes - Type A PF', rec:'Keep using', potentialSupplier:'Widely available' },
+  { num:'', app:'', mat:'Foamex Hoarding Sheets (XPS Polystyrene)', choice:'Water resistant, cheap. Builder feedback: do not use, inferior', size:'2240x2060 / 3000x1200', supplier:'Foamex', price:'6mm $50 / 12mm $150', trade:'', cert:'', ref:'Sassignage', rml:'No recovery path', status:'no', badge:'No recovery path', rec:'TBC', potentialSupplier:'' },
+
+  { group: '4 &middot; Shade Legs' },
+  { num:'4', app:'Shade legs', mat:'ACP (Aluminium Composite Panel)', choice:'Easy to wrap and paint, more seamless than ply. Can be moulded into shapes', size:'1220x2440', supplier:'', price:'$120', trade:'', cert:'', ref:'Sassignage', rml:'No recovery path', status:'no', badge:'No recovery path', rec:'TBC', potentialSupplier:'' },
+  { num:'', app:'', mat:'90x45 MGP10 Untreated Pine', choice:'UT Machine Graded Pine. Easy to wrap and paint', size:'', supplier:'Greenhill', price:'from $4.50 p/lm', trade:'', cert:'', ref:'Greenhill', rml:'Yes - No resin', status:'yes', badge:'Yes - No resin', rec:'Keep using', potentialSupplier:'Widely available' },
+
+  { group: '5 &middot; Marquee Projections' },
+  { num:'5', app:'Marquee projections', mat:'AA Grade Marine Plywood BS1088', choice:'Ideal modular material + weatherproof', size:'2400x1200', supplier:'Allboard', price:'9mm $55-$80 / 15-25mm $90-$150', trade:'~$80-$100', cert:'Australian forestry / PEFC', ref:'SeTimber', rml:'Yes - Type A PF', status:'yes', badge:'Yes - Type A PF', rec:'Keep using', potentialSupplier:'Widely available' },
+
+  { group: '6 &middot; Space Cubes / Highline Structures' },
+  { num:'6', app:'Space cubes / highline structures', mat:'AA Grade Marine Plywood BS1088', choice:'Wrapping container facades for smooth finish', size:'2400x1200', supplier:'Allboard', price:'9mm $55-$80 / 15-25mm $90-$150', trade:'~$80-$100', cert:'Australian forestry / PEFC', ref:'SeTimber', rml:'Yes - Type A PF', status:'yes', badge:'Yes - Type A PF', rec:'Keep using', potentialSupplier:'Widely available' },
+
+  { group: '7 &middot; Internal Wall Flats & Joinery' },
+  { num:'7', app:'Internal wall flats & joinery', mat:'MDF (Decor / MR)', choice:'Stronger than pine', size:'2400x1200', supplier:'Allboard', price:'6mm $20-$25 / 18mm $25-$40', trade:'~$25-$30', cert:'', ref:'Plyco', rml:'No - MUF/UF (formaldehyde)', status:'no', badge:'No - MUF/UF resin', rec:'Limit use', potentialSupplier:'Consider alternatives: Melamine / Formica. Compact Laminate' },
+  { num:'', app:'', mat:'Raw MDF', choice:'', size:'2400x1200', supplier:'Trademaster', price:'9mm $31 / 18mm $49', trade:'~$30', cert:'', ref:'Bord', rml:'No - MUF/UF (formaldehyde)', status:'no', badge:'No - MUF/UF resin', rec:'TBC', potentialSupplier:'' },
+  { num:'', app:'', mat:'FormPly', choice:'High-quality F14 rated plywood from superior quality pine', size:'2400x1200', supplier:'Bord', price:'$30-$37 p/m2', trade:'', cert:'', ref:'Bord', rml:'Yes - recovery path', status:'yes', badge:'Yes - recovery path', rec:'Keep using', potentialSupplier:'Widely available' },
+  { num:'', app:'', mat:'Melamine Particleboard (white)', choice:'Stronger than pine. Source with chipboard substrate PF', size:'2400x1200', supplier:'Plyco', price:'16mm $60 / 18mm $80', trade:'', cert:'', ref:'Plyco', rml:'TBC', status:'maybe', badge:'TBC', rec:'Keep using', potentialSupplier:'' },
+  { num:'', app:'', mat:'LVL E10 90x45', choice:'Premium engineered framing', size:'200x45', supplier:'', price:'$25 p/lm', trade:'', cert:'', ref:'Canterbury', rml:'Possibly', status:'maybe', badge:'Possibly', rec:'Keep using', potentialSupplier:'Widely available' },
+
+  { group: '8 &middot; Framing & Structures' },
+  { num:'8', app:'Framing & structures', mat:'MGP10 Untreated Pine (Kiln Dried)', choice:'If KD do not need F grade. 6m ~$24-$30 p/m', size:'', supplier:'Bayside, Bowens, VTF', price:'$4-$5 p/lm', trade:'', cert:'', ref:'JBMTimber', rml:'Yes - No resin', status:'yes', badge:'Yes - No resin', rec:'Keep using', potentialSupplier:'Widely available' },
+  { num:'', app:'', mat:'90x45 MGP10 Untreated Pine', choice:'UT Machine Graded Pine', size:'', supplier:'Greenhill', price:'from $4.50 p/lm', trade:'', cert:'', ref:'Greenhill', rml:'Yes - No resin', status:'yes', badge:'Yes - No resin', rec:'Keep using', potentialSupplier:'Widely available' },
+  { num:'', app:'', mat:'90x45 F-grade MGP10 H2 Treated Pine (Green)', choice:'LOSP / CCA (Copper Chrome Arsenate) / Creosote', size:'', supplier:'', price:'$7-$9 p/lm', trade:'', cert:'', ref:'ATpine', rml:'No - preservative chemicals', status:'no', badge:'No - preservative chemicals', rec:'Limit use', potentialSupplier:'Consider wood oils over treated timber' },
+  { num:'', app:'', mat:'Structural Ply (AS/NZS 2269)', choice:'Type A bond', size:'2400x1200', supplier:'', price:'12mm $40 / 19mm $75', trade:'', cert:'', ref:'Austral', rml:'Yes - A-Bond PF', status:'yes', badge:'Yes - A-Bond PF', rec:'Keep using', potentialSupplier:'Carter Holt' },
+  { num:'', app:'', mat:'Bluescope Steel', choice:'Structural framing', size:'', supplier:'', price:'$2-$4.50 p/kg', trade:'', cert:'', ref:'', rml:'Recovery path - 10-20% value on secondary market', status:'yes', badge:'Recovery path', rec:'Keep using', potentialSupplier:'Widely available' },
+  { num:'', app:'', mat:'Aluminium', choice:'Extrusion framing', size:'', supplier:'', price:'$4.50-$12 p/kg', trade:'', cert:'', ref:'', rml:'Recovery path - 25-50% high value on secondary market', status:'yes', badge:'Recovery path', rec:'Use more', potentialSupplier:'Widely available' },
+
+  { group: '9 &middot; Flooring - Indoor (Partner Suites)' },
+  { num:'9', app:'Indoor flooring', mat:'Engineered Wood', choice:'Zero reuse - same batch number needed following year. 1 suite ~$10K', size:'', supplier:'', price:'$50-$100 p/m2', trade:'$60/sqm', cert:'', ref:'', rml:'Unlikely', status:'no', badge:'Unlikely', rec:'TBC', potentialSupplier:'' },
+  { num:'', app:'', mat:'Carpet Tiles', choice:'', size:'', supplier:'', price:'$30-$45 p/m2', trade:'', cert:'', ref:'', rml:'Yes recovery path', status:'yes', badge:'Yes - recovery path', rec:'Choose take back', potentialSupplier:'GH Commercial' },
+
+  { group: '10 &middot; Flooring - Outdoor' },
+  { num:'10', app:'Outdoor flooring', mat:'Decking (Modwood)', choice:'', size:'', supplier:'', price:'$96-$160 p/m2', trade:'', cert:'', ref:'', rml:'Unlikely', status:'no', badge:'Unlikely', rec:'Seeking closed loop options', potentialSupplier:'Modwood' },
+  { num:'', app:'', mat:'Slip Resistant Decking', choice:'Evolution Forest Composite / PVC', size:'140-150x23mm', supplier:'', price:'$18-$22 p/lm', trade:'', cert:'', ref:'Nationwide', rml:'Unlikely', status:'no', badge:'Unlikely', rec:'No alternatives', potentialSupplier:'' },
+  { num:'', app:'', mat:'Festival Track (Hired)', choice:'To meet accessibility requirements', size:'', supplier:'', price:'', trade:'', cert:'', ref:'', rml:'Unlikely', status:'no', badge:'Unlikely', rec:'No alternatives', potentialSupplier:'' },
+  { num:'', app:'', mat:'Astro Turf', choice:'', size:'', supplier:'', price:'$30-$60 p/m2', trade:'', cert:'', ref:'', rml:'Yes recovery path', status:'yes', badge:'Yes - recovery path', rec:'Keep using', potentialSupplier:'Tuff Group' },
+
+  { group: '11 &middot; Graphics / Surfaces' },
+  { num:'11', app:'Graphics / surfaces', mat:'Vinyl - SAV', choice:'', size:'', supplier:'', price:'', trade:'', cert:'', ref:'', rml:'No recovery path', status:'no', badge:'No recovery path', rec:'No alternatives', potentialSupplier:'' },
+  { num:'', app:'', mat:'PVC Banners (sail track)', choice:'', size:'', supplier:'', price:'', trade:'', cert:'', ref:'', rml:'Yes - ClimateOne', status:'yes', badge:'Yes - ClimateOne', rec:'No alternatives', potentialSupplier:'' },
+  { num:'', app:'', mat:'Paint', choice:'Water based - does not contaminate timber, recoverable', size:'', supplier:'', price:'', trade:'', cert:'', ref:'', rml:'Water based - acceptable', status:'yes', badge:'Yes - Water based', rec:'Keep using', potentialSupplier:'Consider water based where possible' },
+
+  { group: '12 &middot; Signage' },
+  { num:'12', app:'Signage', mat:'Acrylic Signage', choice:'Best for hero signage on F&B facades. High res finish for branding', size:'', supplier:'', price:'', trade:'', cert:'', ref:'', rml:'', status:'maybe', badge:'Under review', rec:'No alternatives', potentialSupplier:'' },
+  { num:'', app:'', mat:'Illuminated Signs', choice:'E.g. waterdrop where luminescence required. Can be reused', size:'', supplier:'', price:'', trade:'', cert:'', ref:'', rml:'Yes - can be reused', status:'yes', badge:'Yes - can be reused', rec:'Keep using', potentialSupplier:'' }
+];
+
+// ── Style map ────────────────────────────────────────────
+const STATUS_STYLE = {
+  yes:   { row:'rgba(2,136,204,.05)',   bg:'rgba(2,136,204,.15)',   color:'#0271ad', border:'rgba(2,136,204,.3)' },
+  no:    { row:'rgba(248,113,113,.04)', bg:'rgba(248,113,113,.15)', color:'#ef4444', border:'rgba(248,113,113,.3)' },
+  maybe: { row:'rgba(251,191,36,.04)',  bg:'rgba(251,191,36,.2)',   color:'#92400e', border:'rgba(251,191,36,.45)' }
+};
+
+const GROUP_STYLE = 'padding:9px 14px;font-weight:700;font-size:.77rem;color:#1E2886;text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid #0288CC;border-top:2px solid #e2e8f0;';
+
+function badge(r) {
+  var s = STATUS_STYLE[r.status];
+  return '<span style="background:' + s.bg + ';color:' + s.color + ';border:1px solid ' + s.border + ';padding:4px 9px;border-radius:7px;font-size:.72rem;font-weight:700;display:inline-block;white-space:nowrap;">' + (r.badge || '-') + '</span>';
+}
+
+// ── Current State: 5-column view ─────────────────────────
+function buildBenchTable() {
+  var tbody = document.getElementById('bench-tbody');
+  if (!tbody) return;
+  var html = '';
+  var lastNum = '';
+  benchData.forEach(function(r) {
+    if (r.group) {
+      lastNum = '';
+      html += '<tr style="background:#f1f5f9;"><td colspan="5" style="' + GROUP_STYLE + '">' + r.group + '</td></tr>';
+      return;
+    }
+    var s = STATUS_STYLE[r.status];
+    html += '<tr style="background:' + s.row + ';">'
+      + '<td style="padding:9px 14px;border-bottom:1px solid #e2e8f0;background:#f1f5f9;font-size:.78rem;color:#94a3b8;"></td>'
+      + '<td style="padding:9px 14px;border-bottom:1px solid #e2e8f0;background:#f1f5f9;font-size:.8rem;font-weight:500;color:#475569;"></td>'
+      + '<td style="padding:9px 14px;border-bottom:1px solid #e2e8f0;font-size:.83rem;font-weight:600;color:#0f172a;">' + r.mat + '</td>'
+      + '<td style="padding:9px 14px;border-bottom:1px solid #e2e8f0;font-size:.79rem;color:#475569;white-space:nowrap;">' + (r.price || '-') + '</td>'
+      + '<td style="padding:9px 14px;border-bottom:1px solid #e2e8f0;text-align:center;">' + badge(r) + '</td>'
+      + '</tr>';
+  });
+  tbody.innerHTML = html;
+}
+
+// ── Target Materials: same cols as current state + rec + supplier ──
+// Recommendation badge config
+var REC_STYLE = {
+  'Keep using':                        { bg:'#dcfce7', color:'#15803d', border:'#86efac', icon:'✓' },
+  'Use more':                          { bg:'#d1fae5', color:'#065f46', border:'#6ee7b7', icon:'↑' },
+  'Choose take back':                  { bg:'#e0f2fe', color:'#0271ad', border:'#7dd3fc', icon:'♻' },
+  'Seeking closed loop options':       { bg:'#fef9c3', color:'#854d0e', border:'#fde047', icon:'♻' },
+  'Limit use':                         { bg:'#fff7ed', color:'#c2410c', border:'#fdba74', icon:'⚠' },
+  'Seek TA consultation on where applied': { bg:'#fef9c3', color:'#854d0e', border:'#fde047', icon:'?' },
+  'No alternatives':                   { bg:'#fee2e2', color:'#b91c1c', border:'#fca5a5', icon:'✕' },
+  'TBC':                               { bg:'#fef9c3', color:'#854d0e', border:'#fde047', icon:'?' }
+};
+
+function recBadge(val) {
+  var cfg = REC_STYLE[val] || REC_STYLE['TBC'];
+  return '<span style="display:inline-flex;align-items:center;gap:5px;background:' + cfg.bg + ';color:' + cfg.color + ';border:1.5px solid ' + cfg.border + ';padding:4px 10px;border-radius:20px;font-size:.74rem;font-weight:700;white-space:nowrap;">'
+    + '<span style="font-size:.85rem;">' + cfg.icon + '</span>' + val + '</span>';
+}
+
+function buildTargetTable() {
+  var tbody = document.getElementById('target-tbody');
+  if (!tbody) return;
+  var html = '';
+  var tdBase = 'padding:9px 14px;border-bottom:1px solid #e2e8f0;font-size:.79rem;color:#475569;';
+  var tdAmber = 'padding:9px 14px;border-bottom:1px solid rgba(251,191,36,.25);font-size:.79rem;background:rgba(251,191,36,.04);';
+  var tdGap = 'padding:0;width:200px;background:#f1f5f9;border:none;border-bottom:1px solid #e2e8f0;';
+  benchData.forEach(function(r) {
+    if (r.group) {
+      html += '<tr style="background:#f1f5f9;"><td colspan="8" style="' + GROUP_STYLE + '">' + r.group + '</td></tr>';
+      return;
+    }
+    var s = STATUS_STYLE[r.status];
+    html += '<tr style="background:' + s.row + ';">'
+      + '<td style="' + tdBase + 'background:#f1f5f9;color:#94a3b8;"></td>'
+      + '<td style="' + tdBase + 'background:#f1f5f9;font-weight:500;"></td>'
+      + '<td style="' + tdBase + 'font-size:.83rem;font-weight:600;color:#0f172a;">' + r.mat + '</td>'
+      + '<td style="' + tdBase + 'white-space:nowrap;">' + (r.price || '-') + '</td>'
+      + '<td style="' + tdBase + 'text-align:center;">' + badge(r) + '</td>'
+      + '<td style="' + tdGap + '"></td>'
+      + '<td style="' + tdAmber + 'text-align:center;">' + recBadge(r.rec || 'TBC') + '</td>'
+      + '<td style="' + tdAmber + 'font-size:.78rem;color:#78350f;">' + (r.potentialSupplier || '—') + '</td>'
+      + '</tr>';
+  });
+  tbody.innerHTML = html;
+}
+buildBenchTable();
+buildTargetTable();
+</script>
+</body>
+</html>
